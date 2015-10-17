@@ -32,7 +32,7 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(productsICanEat.length).toBe(FILL_ME_IN);
+    expect(productsICanEat.length).toBe(1);
   });
 
   it("given I'm allergic to nuts and hate mushrooms, it should find a pizza I can eat (functional)", function () {
@@ -40,8 +40,10 @@ describe("About Applying What We Have Learnt", function() {
       var productsICanEat = [];
 
       /* solve using filter() & all() / any() */
+      var noNuts = products.filter( function(x) { return x.containsNuts === false } );
+      productsICanEat = noNuts.filter( function(x) { return x.ingredients.every( function(y) { return y !== "mushrooms" } ) } );
 
-      expect(productsICanEat.length).toBe(FILL_ME_IN);
+      expect(productsICanEat.length).toBe(1);
   });
 
   /*********************************************************************************/
@@ -55,15 +57,22 @@ describe("About Applying What We Have Learnt", function() {
       }
     }
 
-    expect(sum).toBe(FILL_ME_IN);
+    expect(sum).toBe(233168);
   });
 
-  it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
+   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
+    /* try chaining range() and reduce() */
 
-    var sum = FILL_ME_IN;    /* try chaining range() and reduce() */
+    var arr = _.range(1000);
+    var sum = arr.reduce( function(x,y) { if (y % 3 === 0 || y % 5 === 0) { return x + y } else { return x }; }, 0 ); 
 
-    expect(233168).toBe(FILL_ME_IN);
-  });
+    expect(233168).toBe(sum);
+  }); 
+
+  /* Alternate Solution:
+    var filt = arr.filter( function(x) { return x % 3 ===0 || x % 5 === 0 } );
+    var sum = filt.reduce( function(x,y) { return x + y }, 0 ); */
+
 
   /*********************************************************************************/
    it("should count the ingredient occurrence (imperative)", function () {
@@ -75,20 +84,23 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
+    ingredientArr = products.map( function(x) { return x.ingredients } ).reduce( function(x,y) { return x.concat(y) } );
+    ingredientArr.forEach( function(x) { ingredientCount[x] = (ingredientCount[x] || 0) + 1 } );
+
     /* chain() together map(), flatten() and reduce() */
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
   /* UNCOMMENT FOR EXTRA CREDIT */
-  /*
+
   it("should find the largest prime factor of a composite number", function () {
 
   });
@@ -109,5 +121,5 @@ describe("About Applying What We Have Learnt", function() {
   it("should find the 10001st prime", function () {
 
   });
-  */
+
 });
